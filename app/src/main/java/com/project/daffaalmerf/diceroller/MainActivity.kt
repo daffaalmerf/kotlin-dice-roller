@@ -17,8 +17,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        rollDie()
+
         val rollButton: Button = findViewById(R.id.btnRoll)
-        rollButton.setOnClickListener { rollDie() }
+        rollButton.setOnClickListener{ rollDie() }
 
     }
 
@@ -26,28 +28,29 @@ class MainActivity : AppCompatActivity() {
      * Roll the die and update on the screen with the result
      */
 
-    private fun rollDie() {
+    private fun rollDie(){
         // Create an instance of die with a side of 6
         val dieOne = Die(6)
         val dieTwo = Die(6)
         // Update the screen with the dice roll
+        val dieNumberOne =  dieOne.roll()
+        val dieNumberTwo = dieTwo.roll()
+
         val dieOneImage: ImageView = findViewById(R.id.imgDieOne)
         val dieTwoImage: ImageView = findViewById(R.id.imgDieTwo)
 
-        val dieOneNumber = dieOne.roll()
-        val dieTwoNumber = dieTwo.roll()
-
-        val dieOneDrawable = changeDrawable(dieOneNumber)
-        val dieTwoDrawable = changeDrawable(dieTwoNumber)
-
-        dieOneImage.setImageResource(dieOneDrawable)
-        dieOneImage.contentDescription = dieOneNumber.toString()
-        dieTwoImage.setImageResource(dieTwoDrawable)
-        dieTwoImage.contentDescription = dieTwoNumber.toString()
+        dieOneImage.setImageResource(changeDrawable(dieNumberOne))
+        dieOneImage.contentDescription = dieNumberOne.toString()
+        dieTwoImage.setImageResource(changeDrawable(dieNumberTwo))
+        dieTwoImage.contentDescription = dieNumberTwo.toString()
         Toast.makeText(this, "Dice rolled!", Toast.LENGTH_SHORT).show()
     }
 
-    private fun changeDrawable(number: Int) : Int {
+    /**
+     * Change image with the corresponding die number
+     */
+
+    private fun changeDrawable(number: Int) : Int{
         when (number) {
             1 -> return R.drawable.dice_1
             2 -> return R.drawable.dice_2
@@ -57,6 +60,7 @@ class MainActivity : AppCompatActivity() {
             else -> return R.drawable.dice_6
         }
     }
+
 }
 
 /**
